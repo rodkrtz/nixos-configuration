@@ -57,7 +57,7 @@
   };
 
   # Configure console keymap
-  console.keyMap = "dvorak";
+  # console.keyMap = "dvorak";
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
@@ -82,6 +82,8 @@
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
+  users.defaultUserShell = pkgs.zsh;
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.rodkrtz = {
     isNormalUser = true;
@@ -94,14 +96,36 @@
 
   # Install firefox.
   programs.firefox.enable = true;
+  programs.starship.enable = true;
+  programs = {
+    zsh = {
+      enable = true;
+      autosuggestions.enable = true;
+      zsh-autoenv.enable = true;
+      syntaxHighlighting.enable = true;
+     #   ohMyZsh = {
+     #     enable = true;
+     #     theme = "robbyrussell";
+     #     plugins = [
+     #       "git"
+     #       "npm"
+     #       "history"
+     #       "node"
+     #       "rust"
+     #       "deno"
+     #     ];
+     #   };
+    };
+  };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    neovim
     jdk8
     maven
-  #  wget
+    wget
   ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];  
