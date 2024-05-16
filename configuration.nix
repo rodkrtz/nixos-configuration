@@ -4,6 +4,14 @@
 
 { config, pkgs, ... }:
 
+let
+  unstable = import (fetchTarball {
+    url = "https://nixos.org/channels/nixos-unstable/nixexprs.tar.xz";
+  }) {
+    config = { allowUnfree = true; };
+  };
+in
+
 {
   imports =
     [ # Include the results of the hardware scan.
@@ -94,6 +102,8 @@
     ];
   };
 
+  nixpkgs.config.allowUnfree = true;
+
   # Install firefox.
   programs.firefox.enable = true;
   programs.starship.enable = true;
@@ -103,18 +113,6 @@
       autosuggestions.enable = true;
       zsh-autoenv.enable = true;
       syntaxHighlighting.enable = true;
-     #   ohMyZsh = {
-     #     enable = true;
-     #     theme = "robbyrussell";
-     #     plugins = [
-     #       "git"
-     #       "npm"
-     #       "history"
-     #       "node"
-     #       "rust"
-     #       "deno"
-     #     ];
-     #   };
     };
   };
 
@@ -126,6 +124,10 @@
     jdk8
     maven
     wget
+    git
+
+    # Unstables
+    unstable.vscode
   ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];  
